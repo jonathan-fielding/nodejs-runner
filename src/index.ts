@@ -1,7 +1,7 @@
 const serverPort: number = 3000;
 
 import { Server as WebSocketServer } from 'ws';
-import { fork } from 'child_process';
+import { fork, ChildProcess } from 'child_process';
 import { promisify } from 'util';
 import fs from 'fs';
 
@@ -22,16 +22,32 @@ function uuidv4() {
 }
 
 socket.on('connection', function (ws: any) {
-  ws.on('message', async (message: any) => {
+  let child: ChildProcess | null = null;
+
+  ws.on('message', async (message: string) => {
     const filename = uuidv4();
     const filepath = `/tmp/${filename}.js`;
+
+    if (message === 'EXIT' && child !== null) {
+      try {
+        child.kill();
+        ws.send(`--- end ---`);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error); // Useful in the docker logs
+        ws.send(error);
+      }
+
+      return;
+    }
+
     const fullCode = `(async () => {
       ${message}
     })()`;
 
     await writeFile(filepath, fullCode);
 
-    const child = fork(filepath, [], {
+    child = fork(filepath, [], {
       silent: true,
     });
 

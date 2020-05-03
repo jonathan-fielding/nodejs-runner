@@ -8,6 +8,8 @@ The initial purpose of the Node.js runner is to provide a safe environment for a
 
 To use this docker container first connect to it using websockets, you can then send the JavaScript code you want to execute to the container and it will stream back the output.
 
+To stop the executing code send the command `EXIT`
+
 ## Licence
 
 Copyright 2020 Jonathan Fielding
