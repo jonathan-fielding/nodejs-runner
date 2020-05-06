@@ -10,6 +10,8 @@ To use this docker container first connect to it using websockets, you can then 
 
 To stop the executing code send the command `EXIT`
 
+To enable custom npm packages, add the names of the packages seperated by spaces into a environment variable called `PACKAGES` e.g `node-fetch express`. This can be useful if you want to use these node packages in your repl.
+
 ## Licence
 
 Copyright 2020 Jonathan Fielding

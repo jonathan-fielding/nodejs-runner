@@ -4,7 +4,9 @@
   "description": "A docker based Node.js code runner which will execute JavaScript sent to it",
   "main": "index.js",
   "scripts": {
-    "start": "npx ts-node ./src/index.ts",
+    "start": "npm run install && npm run run",
+    "run": "npx ts-node ./src/index.ts",
+    "install": "npx ts-node ./src/install.ts",
     "build": "docker build -f Dockerfile ./",
     "watch": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts"
   },
